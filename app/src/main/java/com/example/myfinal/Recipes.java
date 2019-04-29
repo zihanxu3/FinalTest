@@ -49,7 +49,9 @@ public class Recipes extends MainActivity {
     protected TextView recipeOne;
     protected TextView fmnnn;
     protected TextView recipeTwo;
+    protected TextView smnnn;
     protected TextView recipeThree;
+    protected TextView tmnnn;
 
     // error message
     CharSequence text = "Request failed, please uninstall this app";
@@ -75,13 +77,17 @@ public class Recipes extends MainActivity {
         fmn = intent.getStringExtra("fmnn");
         secondTitle = intent.getStringExtra("secondT");
         secondImage = intent.getStringExtra("secondI");
+        smn = intent.getStringExtra("smnn");
         thirdTitle = intent.getStringExtra("thirdT");
         thirdImage = intent.getStringExtra("thirdI");
+        tmn = intent.getStringExtra("tmnn");
 
         recipeOne = findViewById(R.id.recipe1);
         fmnnn = findViewById(R.id.fmn);
         recipeTwo = findViewById(R.id.recipe2);
+        smnnn = findViewById(R.id.fmn2);
         recipeThree = findViewById(R.id.recipe3);
+        tmnnn = findViewById(R.id.fmn3);
 
         firstRecipe = findViewById(R.id.recipeYi);
         secondRecipe = findViewById(R.id.recipeEr);
@@ -99,6 +105,8 @@ public class Recipes extends MainActivity {
             recipeTwo.setText(two);
             recipeThree.setText(three);
             fmnnn.setText(fmn);
+            smnnn.setText(smn);
+            tmnnn.setText(tmn);
 
             Picasso.with(this).load(firstImage)
                     .into(firstRecipe);

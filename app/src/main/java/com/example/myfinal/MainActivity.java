@@ -148,8 +148,10 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("fmnn", fmn);
             intent.putExtra("secondT", secondTitle);
             intent.putExtra("secondI", secondImage);
+            intent.putExtra("smnn", smn);
             intent.putExtra("thirdT", thirdTitle);
             intent.putExtra("thirdI", thirdImage);
+            intent.putExtra("tmnn", tmn);
             startActivity(intent);
             System.out.println("this is first title before next page: " + firstTitle);
         });
@@ -199,6 +201,19 @@ public class MainActivity extends AppCompatActivity {
                                 JsonObject secondMeal = recipes.get(1).getAsJsonObject();
                                 secondImage = secondMeal.get("image").getAsString();
                                 secondTitle = secondMeal.get("title").getAsString();
+                                smc = secondMeal.get("missedIngredientCount").getAsInt();
+                                smn = "Missed Ingredients: " + secondMeal.get("missedIngredients")
+                                        .getAsJsonArray()
+                                        .get(0)
+                                        .getAsJsonObject()
+                                        .get("name").getAsString();
+                                for (int i = 1; i < smc; i++) {
+                                    smn = smn + "," + secondMeal.get("missedIngredients")
+                                            .getAsJsonArray()
+                                            .get(i)
+                                            .getAsJsonObject()
+                                            .get("name").getAsString();
+                                }
                             } catch (Exception e) {
                                 Log.d(TAG, "Ggggggg");
                             }
@@ -206,6 +221,19 @@ public class MainActivity extends AppCompatActivity {
                                 JsonObject thirdMeal = recipes.get(2).getAsJsonObject();
                                 thirdImage = thirdMeal.get("image").getAsString();
                                 thirdTitle = thirdMeal.get("title").getAsString();
+                                tmc = thirdMeal.get("missedIngredientCount").getAsInt();
+                                tmn = "Missed Ingredients: " + thirdMeal.get("missedIngredients")
+                                        .getAsJsonArray()
+                                        .get(0)
+                                        .getAsJsonObject()
+                                        .get("name").getAsString();
+                                for (int i = 1; i < tmc; i++) {
+                                    tmn = tmn + "," + thirdMeal.get("missedIngredients")
+                                            .getAsJsonArray()
+                                            .get(i)
+                                            .getAsJsonObject()
+                                            .get("name").getAsString();
+                                }
                             } catch (Exception e) {
                                 Log.d(TAG, "Wo si le");
                             }
