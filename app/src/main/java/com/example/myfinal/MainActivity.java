@@ -142,6 +142,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         findViewById(R.id.next).setOnClickListener(v -> {
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (Exception e) {
+                Toast.makeText(MainActivity.this, text, duration).show();
+            }
             Intent intent = new Intent(MainActivity.this, Recipes.class);
             intent.putExtra("firstT", firstTitle);
             intent.putExtra("firstI", firstImage);

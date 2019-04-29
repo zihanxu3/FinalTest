@@ -53,6 +53,8 @@ public class Recipes extends MainActivity {
     protected TextView recipeThree;
     protected TextView tmnnn;
 
+    protected Button backBut;
+
     // error message
     CharSequence text = "Request failed, please uninstall this app";
     int duration = Toast.LENGTH_LONG;
@@ -93,6 +95,8 @@ public class Recipes extends MainActivity {
         secondRecipe = findViewById(R.id.recipeEr);
         thirdRecipe = findViewById(R.id.recipeSan);
 
+        backBut = findViewById(R.id.but);
+
         //System.out.println("then" + firstTitle);
         if (firstTitle == null || secondTitle == null || thirdTitle == null) {
             Toast.makeText(Recipes.this, text, duration).show();
@@ -122,22 +126,10 @@ public class Recipes extends MainActivity {
             Log.d(TAG, "Wut the hack??");
         }
 
-        /*
-         * Set up handlers for each button in our UI. These run when the buttons are clicked.
-         */
-        /*final ImageButton openFile = findViewById(R.id.openFile);
-        openFile.setOnClickListener(v -> {
-            Log.d(TAG, "Open file button clicked");
-            startOpenFile();
-        });*/
-    }
-    public static Drawable LoadImageFromWebOperations(String url) {
-        try {
-            InputStream is = (InputStream) new URL(url).getContent();
-            Drawable d = Drawable.createFromStream(is, "src name");
-            return d;
-        } catch (Exception e) {
-            return null;
-        }
+        backBut.setOnClickListener(v -> {
+            Log.d(TAG, "Back button clicked");
+            Intent intention = new Intent(this, MainActivity.class);
+            startActivity(intention);
+        });
     }
 }
