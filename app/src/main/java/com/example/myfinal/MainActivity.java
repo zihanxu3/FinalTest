@@ -31,6 +31,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -74,18 +75,24 @@ public class MainActivity extends AppCompatActivity {
      */
     protected String firstTitle;
     protected String firstImage;
+    protected int fmc;
+    protected String fmn;
 
     /**
      * Second meal's info.
      */
     protected String secondTitle;
     protected String secondImage;
+    protected int smc;
+    protected String smn;
 
     /**
      * Third meal's info.
      */
     protected String thirdTitle;
     protected String thirdImage;
+    protected int tmc;
+    protected String tmn;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -132,25 +139,19 @@ public class MainActivity extends AppCompatActivity {
                 } catch (Exception e) {
                     e.getStackTrace();
                 }
-
-                //change page
-                /**
-                 * Set the activity content from a layout resource.  The resource will be
-                 * inflated, adding all top-level views to the activity.
-                 *
-                 * @param layoutResID Resource ID to be inflated.
-                 *
-                 * @see #setContentView(android.view.View)
-                 * @see #setContentView(android.view.View, android.view.ViewGroup.LayoutParams)
-                 */
-                //setContentView(R.layout.page2);
-
             }
         });
         findViewById(R.id.next).setOnClickListener(v -> {
-            Intent setupIntent = new Intent(MainActivity.this,Recipes.class);
-            startActivity(setupIntent);
-            finish();
+            Intent intent = new Intent(MainActivity.this, Recipes.class);
+            intent.putExtra("firstT", firstTitle);
+            intent.putExtra("firstI", firstImage);
+            intent.putExtra("fmnn", fmn);
+            intent.putExtra("secondT", secondTitle);
+            intent.putExtra("secondI", secondImage);
+            intent.putExtra("thirdT", thirdTitle);
+            intent.putExtra("thirdI", thirdImage);
+            startActivity(intent);
+            System.out.println("this is first title before next page: " + firstTitle);
         });
     }
     /**
@@ -158,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
      */
     protected void startAPICall() {
         try {
-            JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(
+            JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                     Request.Method.GET,
                     "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?number=3&ingredients=" + ingredientsURL,
                     null,
@@ -177,6 +178,19 @@ public class MainActivity extends AppCompatActivity {
                                 JsonObject firstMeal = recipes.get(0).getAsJsonObject();
                                 firstImage = firstMeal.get("image").getAsString();
                                 firstTitle = firstMeal.get("title").getAsString();
+                                fmc = firstMeal.get("missedIngredientCount").getAsInt();
+                                fmn = "Missed Ingredients: " + firstMeal.get("missedIngredients")
+                                        .getAsJsonArray()
+                                        .get(0)
+                                        .getAsJsonObject()
+                                        .get("name").getAsString();
+                                for (int i = 1; i < fmc; i++) {
+                                    fmn = fmn + "," + firstMeal.get("missedIngredients")
+                                            .getAsJsonArray()
+                                            .get(i)
+                                            .getAsJsonObject()
+                                            .get("name").getAsString();
+                                }
                                 //System.out.println(firstTitle);
                             } catch (Exception e) {
                                 Log.d("Something goes wrong", "GG");
@@ -211,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
                     return parameters;
                 }
             };
-            requestQueue.add(jsonObjectRequest);
+            requestQueue.add(jsonArrayRequest);
         } catch (Exception e) {
             e.printStackTrace();
         }

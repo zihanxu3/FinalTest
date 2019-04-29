@@ -1,6 +1,8 @@
 package com.example.myfinal;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,7 +30,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONObject;
 
@@ -37,16 +39,17 @@ import java.net.URL;
 
 public class Recipes extends MainActivity {
     /** Default logging tag for messages from the main activity. */
-    private static final String TAG = "FinalProject";
+    private static final String TAG = "RECIPE";
 
     //Output image
     ImageView firstRecipe;
     ImageView secondRecipe;
     ImageView thirdRecipe;
 
-    TextView recipeOne;
-    TextView recipeTwo;
-    TextView recipeThree;
+    protected TextView recipeOne;
+    protected TextView fmnnn;
+    protected TextView recipeTwo;
+    protected TextView recipeThree;
 
     // error message
     CharSequence text = "Request failed, please uninstall this app";
@@ -66,7 +69,17 @@ public class Recipes extends MainActivity {
         // Load the main layout for our activity
         setContentView(R.layout.page2);
 
+        Intent intent = getIntent();
+        firstTitle = intent.getStringExtra("firstT");
+        firstImage = intent.getStringExtra("firstI");
+        fmn = intent.getStringExtra("fmnn");
+        secondTitle = intent.getStringExtra("secondT");
+        secondImage = intent.getStringExtra("secondI");
+        thirdTitle = intent.getStringExtra("thirdT");
+        thirdImage = intent.getStringExtra("thirdI");
+
         recipeOne = findViewById(R.id.recipe1);
+        fmnnn = findViewById(R.id.fmn);
         recipeTwo = findViewById(R.id.recipe2);
         recipeThree = findViewById(R.id.recipe3);
 
@@ -74,7 +87,7 @@ public class Recipes extends MainActivity {
         secondRecipe = findViewById(R.id.recipeEr);
         thirdRecipe = findViewById(R.id.recipeSan);
 
-        System.out.println("then" + firstTitle);
+        //System.out.println("then" + firstTitle);
         if (firstTitle == null || secondTitle == null || thirdTitle == null) {
             Toast.makeText(Recipes.this, text, duration).show();
         }
@@ -85,10 +98,18 @@ public class Recipes extends MainActivity {
             recipeOne.setText(one);
             recipeTwo.setText(two);
             recipeThree.setText(three);
+            fmnnn.setText(fmn);
 
-            firstRecipe.setImageDrawable(LoadImageFromWebOperations(firstImage));
-            secondRecipe.setImageDrawable(LoadImageFromWebOperations(secondImage));
-            thirdRecipe.setImageDrawable(LoadImageFromWebOperations(thirdImage));
+            Picasso.with(this).load(firstImage)
+                    .into(firstRecipe);
+
+            Picasso.with(this).load(secondImage)
+                    .into(secondRecipe);
+
+            Picasso.with(this).load(thirdImage)
+                    .into(thirdRecipe);
+
+
         } catch (Exception e) {
             Log.d(TAG, "Wut the hack??");
         }
