@@ -17,6 +17,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -25,6 +26,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -107,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         //set button handler
         cookButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 ingredients = ingredientInput.getText().toString();
                 String[] parts = ingredients.split(",");
                 for (int i = 0; i < parts.length; i++) {
@@ -131,10 +133,6 @@ public class MainActivity extends AppCompatActivity {
                     e.getStackTrace();
                 }
 
-                //Change to display activity.
-                Intent intent = new Intent(MainActivity.this, Recipes.class);
-                startActivity(intent);
-
                 //change page
                 /**
                  * Set the activity content from a layout resource.  The resource will be
@@ -149,31 +147,37 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        findViewById(R.id.next).setOnClickListener(v -> {
+            Intent setupIntent = new Intent(MainActivity.this,Recipes.class);
+            startActivity(setupIntent);
+            finish();
+        });
     }
     /**
      * Make an API call.
      */
     protected void startAPICall() {
         try {
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+            JsonArrayRequest jsonObjectRequest = new JsonArrayRequest(
                     Request.Method.GET,
                     "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?number=3&ingredients=" + ingredientsURL,
                     null,
-                    new Response.Listener<JSONObject>() {
+                    new Response.Listener<JSONArray>() {
                         @Override
-                        public void onResponse(final JSONObject response) {
+                        public void onResponse(final JSONArray response) {
                             Log.d(TAG, response.toString());
 
                             //initiate Json Parser
                             JsonParser parser = new JsonParser();
-                            JsonObject result = parser.parse(response.toString()).getAsJsonObject();
-                            JsonArray recipes = result.getAsJsonArray("meals");
+                            JsonArray recipes = parser.parse(response.toString()).getAsJsonArray();
+                            //JsonArray recipes = result.getAsJsonArray("Value");
 
                             //Retrieve first meals' title, image
                             try {
                                 JsonObject firstMeal = recipes.get(0).getAsJsonObject();
                                 firstImage = firstMeal.get("image").getAsString();
                                 firstTitle = firstMeal.get("title").getAsString();
+                                //System.out.println(firstTitle);
                             } catch (Exception e) {
                                 Log.d("Something goes wrong", "GG");
                             }
@@ -231,7 +235,11 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void afterTextChanged(Editable s) {
-
+            if (isInputEmpty(ingredientInput)) {
+                cookButton.setEnabled(false);
+            } else {
+                cookButton.setEnabled(true);
+            }
         }
     };
 }

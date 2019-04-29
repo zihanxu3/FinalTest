@@ -50,7 +50,7 @@ public class Recipes extends MainActivity {
 
     // error message
     CharSequence text = "Request failed, please uninstall this app";
-    int duration = Toast.LENGTH_SHORT;
+    int duration = Toast.LENGTH_LONG;
 
     /**
      * Run when our activity comes into view.
@@ -74,13 +74,18 @@ public class Recipes extends MainActivity {
         secondRecipe = findViewById(R.id.recipeEr);
         thirdRecipe = findViewById(R.id.recipeSan);
 
+        System.out.println("then" + firstTitle);
         if (firstTitle == null || secondTitle == null || thirdTitle == null) {
-            Toast.makeText(Recipes.this, text, duration);
+            Toast.makeText(Recipes.this, text, duration).show();
         }
         try {
-            recipeOne.setText("Name: " + firstTitle);
-            recipeTwo.setText("Name: " + secondTitle);
-            recipeThree.setText("Name: " + thirdTitle);
+            CharSequence one = "Name: " + firstTitle;
+            CharSequence two = "Name: " + secondTitle;
+            CharSequence three = "Name: " + thirdTitle;
+            recipeOne.setText(one);
+            recipeTwo.setText(two);
+            recipeThree.setText(three);
+
             firstRecipe.setImageDrawable(LoadImageFromWebOperations(firstImage));
             secondRecipe.setImageDrawable(LoadImageFromWebOperations(secondImage));
             thirdRecipe.setImageDrawable(LoadImageFromWebOperations(thirdImage));
