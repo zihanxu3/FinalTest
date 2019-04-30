@@ -47,6 +47,7 @@ public class Recipes extends MainActivity {
     ImageView secondRecipe;
     ImageView thirdRecipe;
 
+    //Output text
     protected TextView recipeOne;
     protected TextView fmnnn;
     protected TextView like1;
@@ -57,10 +58,11 @@ public class Recipes extends MainActivity {
     protected TextView tmnnn;
     protected TextView like3;
 
+    //Return to the first interface button
     protected Button backBut;
 
     // error message
-    CharSequence text = "Request failed, please uninstall this app";
+    CharSequence text = "Request failed, please check your inputs";
     int duration = Toast.LENGTH_LONG;
 
     /**
@@ -77,7 +79,7 @@ public class Recipes extends MainActivity {
         // Load the main layout for our activity
         setContentView(R.layout.page2);
 
-
+        //Retrieve info from our last interface
         Intent intent = getIntent();
         firstTitle = intent.getStringExtra("firstT");
         firstImage = intent.getStringExtra("firstI");
@@ -137,6 +139,7 @@ public class Recipes extends MainActivity {
             like2.setText(deux);
             like3.setText(trois);
 
+            //Convert ImageURL to imageView
             Picasso.with(this).load(firstImage)
                     .into(firstRecipe);
 
@@ -146,11 +149,11 @@ public class Recipes extends MainActivity {
             Picasso.with(this).load(thirdImage)
                     .into(thirdRecipe);
 
-
         } catch (Exception e) {
             Log.d(TAG, "Wut the hack??");
         }
 
+        //Go back to the last page
         backBut.setOnClickListener(v -> {
             Log.d(TAG, "Back button clicked");
             Intent intention = new Intent(this, MainActivity.class);
