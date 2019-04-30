@@ -14,6 +14,7 @@
         android:layout_marginEnd="60dp"
         android:layout_marginRight="60dp"
         android:text="TextView"
+        app:fontFamily="monospace"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -25,6 +26,7 @@
         android:layout_marginEnd="60dp"
         android:layout_marginRight="60dp"
         android:text="TextView"
+        app:fontFamily="monospace"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,9 +36,9 @@
         android:layout_height="0dp"
         android:layout_marginStart="55dp"
         android:layout_marginLeft="55dp"
-        android:layout_marginTop="412dp"
+        android:layout_marginTop="407dp"
         android:text="TextView"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:fontFamily="cursive"
         app:layout_constraintStart_toStartOf="parent"
@@ -94,9 +96,9 @@
         android:layout_height="0dp"
         android:layout_marginStart="55dp"
         android:layout_marginLeft="55dp"
-        android:layout_marginTop="130dp"
+        android:layout_marginTop="125dp"
         android:text="TextView"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:fontFamily="cursive"
         app:layout_constraintStart_toStartOf="parent"
@@ -108,9 +110,9 @@
         android:layout_height="0dp"
         android:layout_marginStart="55dp"
         android:layout_marginLeft="55dp"
-        android:layout_marginTop="270dp"
+        android:layout_marginTop="265dp"
         android:text="TextView"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:fontFamily="cursive"
         app:layout_constraintStart_toStartOf="parent"
@@ -124,6 +126,7 @@
         android:layout_marginEnd="60dp"
         android:layout_marginRight="60dp"
         android:text="TextView"
+        app:fontFamily="monospace"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

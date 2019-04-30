@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * cook button.
      */
-    ImageButton cookButton;
+    Button confirmButton;
 
     /**
      * set up error message.a
@@ -107,14 +107,14 @@ public class MainActivity extends AppCompatActivity {
         ingredientInput = findViewById(R.id.editText);
 
         //set up button and disable it
-        cookButton = findViewById(R.id.Cook);
-        cookButton.setEnabled(false);
+        confirmButton = findViewById(R.id.next);
+        confirmButton.setEnabled(false);
 
         //add Textwatcher to monitor user input
         ingredientInput.addTextChangedListener(watcher);
 
         //set button handler
-        cookButton.setOnClickListener(new View.OnClickListener() {
+        confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ingredients = ingredientInput.getText().toString();
@@ -141,12 +141,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-        findViewById(R.id.next).setOnClickListener(v -> {
-            try {
+        findViewById(R.id.Cook).setOnClickListener(v -> {
+            /*try {
                 TimeUnit.SECONDS.sleep(1);
             } catch (Exception e) {
                 Toast.makeText(MainActivity.this, text, duration).show();
-            }
+            }*/
             Intent intent = new Intent(MainActivity.this, Recipes.class);
             intent.putExtra("firstT", firstTitle);
             intent.putExtra("firstI", firstImage);
@@ -283,9 +283,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void afterTextChanged(Editable s) {
             if (isInputEmpty(ingredientInput)) {
-                cookButton.setEnabled(false);
+                confirmButton.setEnabled(false);
             } else {
-                cookButton.setEnabled(true);
+                confirmButton.setEnabled(true);
             }
         }
     };
