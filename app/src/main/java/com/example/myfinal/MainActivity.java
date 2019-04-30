@@ -35,8 +35,6 @@ import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
-    /** final parameters.*/
-    final protected int recipeAmount = 3;
 
     /**
      * user input.
@@ -57,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
     /**
      * set up error message.a
      */
-    CharSequence text = "Invalid Inputs";
-    int duration = Toast.LENGTH_LONG;
+    CharSequence text = "Please Try Again or Check Your NetWork";
+    int duration = Toast.LENGTH_SHORT;
 
     /**
      * default logging tag.
@@ -77,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
     protected String firstImage;
     protected int fmc;
     protected String fmn;
+    protected int likeOne;
 
     /**
      * Second meal's info.
@@ -85,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
     protected String secondImage;
     protected int smc;
     protected String smn;
+    protected int likeTwo;
 
     /**
      * Third meal's info.
@@ -93,24 +93,25 @@ public class MainActivity extends AppCompatActivity {
     protected String thirdImage;
     protected int tmc;
     protected String tmn;
+    protected int likeThree;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Set up a queue for our Volley Request
+        // Set up a queue for Volley Request
         requestQueue = Volley.newRequestQueue(this);
 
         // Load the main layout for the our activity
         setContentView(R.layout.activity_main);
 
-        //Initialize all inputs
+        //Link with the UI
         ingredientInput = findViewById(R.id.editText);
 
-        //set up button and disable it
+        //set up button and disable it until text being changed properly
         confirmButton = findViewById(R.id.next);
         confirmButton.setEnabled(false);
 
-        //add Textwatcher to monitor user input
+        //add TextWatcher
         ingredientInput.addTextChangedListener(watcher);
 
         //set button handler
@@ -142,25 +143,53 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         findViewById(R.id.Cook).setOnClickListener(v -> {
-            /*try {
-                TimeUnit.SECONDS.sleep(1);
+            try {
+                TimeUnit.MILLISECONDS.sleep(50);
             } catch (Exception e) {
                 Toast.makeText(MainActivity.this, text, duration).show();
-            }*/
+            }
             Intent intent = new Intent(MainActivity.this, Recipes.class);
             intent.putExtra("firstT", firstTitle);
             intent.putExtra("firstI", firstImage);
             intent.putExtra("fmnn", fmn);
+            intent.putExtra("l", likeOne);
             intent.putExtra("secondT", secondTitle);
             intent.putExtra("secondI", secondImage);
             intent.putExtra("smnn", smn);
+            intent.putExtra("ll", likeTwo);
             intent.putExtra("thirdT", thirdTitle);
             intent.putExtra("thirdI", thirdImage);
             intent.putExtra("tmnn", tmn);
+            intent.putExtra("lll", likeThree);
             startActivity(intent);
-            System.out.println("this is first title before next page: " + firstTitle);
+            //System.out.println("this is first title before next page: " + firstTitle);
         });
     }
+    /** check if user input are eligible */
+    private boolean isInputEmpty(EditText edit) {
+        return edit.getText().toString().length() == 0;
+    }
+    /** update confirm button */
+    private final TextWatcher watcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if (isInputEmpty(ingredientInput)) {
+                confirmButton.setEnabled(false);
+            } else {
+                confirmButton.setEnabled(true);
+            }
+        }
+    };
     /**
      * Make an API call.
      */
@@ -186,58 +215,61 @@ public class MainActivity extends AppCompatActivity {
                                 firstImage = firstMeal.get("image").getAsString();
                                 firstTitle = firstMeal.get("title").getAsString();
                                 fmc = firstMeal.get("missedIngredientCount").getAsInt();
+                                likeOne = firstMeal.get("likes").getAsInt();
                                 fmn = "Missed Ingredients: " + firstMeal.get("missedIngredients")
                                         .getAsJsonArray()
                                         .get(0)
                                         .getAsJsonObject()
-                                        .get("name").getAsString();
+                                        .get("originalString").getAsString();
                                 for (int i = 1; i < fmc; i++) {
                                     fmn = fmn + "," + firstMeal.get("missedIngredients")
                                             .getAsJsonArray()
                                             .get(i)
                                             .getAsJsonObject()
-                                            .get("name").getAsString();
+                                            .get("originalString").getAsString();
                                 }
                                 //System.out.println(firstTitle);
                             } catch (Exception e) {
-                                Log.d("Something goes wrong", "GG");
+                                Log.d(TAG, "First Goes Wrong");
                             }
                             try {
                                 JsonObject secondMeal = recipes.get(1).getAsJsonObject();
                                 secondImage = secondMeal.get("image").getAsString();
                                 secondTitle = secondMeal.get("title").getAsString();
                                 smc = secondMeal.get("missedIngredientCount").getAsInt();
+                                likeTwo = secondMeal.get("likes").getAsInt();
                                 smn = "Missed Ingredients: " + secondMeal.get("missedIngredients")
                                         .getAsJsonArray()
                                         .get(0)
                                         .getAsJsonObject()
-                                        .get("name").getAsString();
+                                        .get("originalString").getAsString();
                                 for (int i = 1; i < smc; i++) {
                                     smn = smn + "," + secondMeal.get("missedIngredients")
                                             .getAsJsonArray()
                                             .get(i)
                                             .getAsJsonObject()
-                                            .get("name").getAsString();
+                                            .get("originalString").getAsString();
                                 }
                             } catch (Exception e) {
-                                Log.d(TAG, "Ggggggg");
+                                Log.d(TAG, "Second Goes Wrong");
                             }
                             try {
                                 JsonObject thirdMeal = recipes.get(2).getAsJsonObject();
                                 thirdImage = thirdMeal.get("image").getAsString();
                                 thirdTitle = thirdMeal.get("title").getAsString();
                                 tmc = thirdMeal.get("missedIngredientCount").getAsInt();
+                                likeThree = thirdMeal.get("likes").getAsInt();
                                 tmn = "Missed Ingredients: " + thirdMeal.get("missedIngredients")
                                         .getAsJsonArray()
                                         .get(0)
                                         .getAsJsonObject()
-                                        .get("name").getAsString();
+                                        .get("originalString").getAsString();
                                 for (int i = 1; i < tmc; i++) {
                                     tmn = tmn + "," + thirdMeal.get("missedIngredients")
                                             .getAsJsonArray()
                                             .get(i)
                                             .getAsJsonObject()
-                                            .get("name").getAsString();
+                                            .get("originalString").getAsString();
                                 }
                             } catch (Exception e) {
                                 Log.d(TAG, "Wo si le");
@@ -263,30 +295,4 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-    /** check if user input are eligible */
-    private boolean isInputEmpty(EditText edit) {
-        return edit.getText().toString().length() == 0;
-    }
-    /** update ImageButton */
-    private final TextWatcher watcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            if (isInputEmpty(ingredientInput)) {
-                confirmButton.setEnabled(false);
-            } else {
-                confirmButton.setEnabled(true);
-            }
-        }
-    };
 }

@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -48,10 +49,13 @@ public class Recipes extends MainActivity {
 
     protected TextView recipeOne;
     protected TextView fmnnn;
+    protected TextView like1;
     protected TextView recipeTwo;
     protected TextView smnnn;
+    protected TextView like2;
     protected TextView recipeThree;
     protected TextView tmnnn;
+    protected TextView like3;
 
     protected Button backBut;
 
@@ -73,29 +77,44 @@ public class Recipes extends MainActivity {
         // Load the main layout for our activity
         setContentView(R.layout.page2);
 
+
         Intent intent = getIntent();
         firstTitle = intent.getStringExtra("firstT");
         firstImage = intent.getStringExtra("firstI");
         fmn = intent.getStringExtra("fmnn");
+        likeOne = intent.getIntExtra("l", -1);
+        String likeOn = Integer.toString(likeOne);
         secondTitle = intent.getStringExtra("secondT");
         secondImage = intent.getStringExtra("secondI");
         smn = intent.getStringExtra("smnn");
+        likeTwo = intent.getIntExtra("ll", -1);
+        String likeTw = Integer.toString(likeTwo);
         thirdTitle = intent.getStringExtra("thirdT");
         thirdImage = intent.getStringExtra("thirdI");
         tmn = intent.getStringExtra("tmnn");
+        likeThree = intent.getIntExtra("lll", -1);
+        String likeTh = Integer.toString(likeThree);
 
         recipeOne = findViewById(R.id.recipe1);
         fmnnn = findViewById(R.id.fmn);
+        like1 = findViewById(R.id.likeO);
         recipeTwo = findViewById(R.id.recipe2);
         smnnn = findViewById(R.id.fmn2);
+        like2 = findViewById(R.id.likeTw);
         recipeThree = findViewById(R.id.recipe3);
         tmnnn = findViewById(R.id.fmn3);
+        like3 = findViewById(R.id.likeTh);
 
         firstRecipe = findViewById(R.id.recipeYi);
         secondRecipe = findViewById(R.id.recipeEr);
         thirdRecipe = findViewById(R.id.recipeSan);
 
         backBut = findViewById(R.id.but);
+
+        // Make our missed ingredients scrollable
+        fmnnn.setMovementMethod(new ScrollingMovementMethod());
+        smnnn.setMovementMethod(new ScrollingMovementMethod());
+        tmnnn.setMovementMethod(new ScrollingMovementMethod());
 
         //System.out.println("then" + firstTitle);
         if (firstTitle == null || secondTitle == null || thirdTitle == null) {
@@ -105,12 +124,18 @@ public class Recipes extends MainActivity {
             CharSequence one = "Name: " + firstTitle;
             CharSequence two = "Name: " + secondTitle;
             CharSequence three = "Name: " + thirdTitle;
+            CharSequence un = "Likes: " + likeOn;
+            CharSequence deux = "Likes: " + likeTw;
+            CharSequence trois = "Likes: " + likeTh;
             recipeOne.setText(one);
             recipeTwo.setText(two);
             recipeThree.setText(three);
             fmnnn.setText(fmn);
             smnnn.setText(smn);
             tmnnn.setText(tmn);
+            like1.setText(un);
+            like2.setText(deux);
+            like3.setText(trois);
 
             Picasso.with(this).load(firstImage)
                     .into(firstRecipe);
