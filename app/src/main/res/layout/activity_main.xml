@@ -50,7 +50,7 @@
         android:layout_marginRight="68dp"
         android:ems="10"
         android:inputType="textPersonName|text"
-        android:text="Eg: onion,cucumber"
+        android:text="onion,cucumber,tomato"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
