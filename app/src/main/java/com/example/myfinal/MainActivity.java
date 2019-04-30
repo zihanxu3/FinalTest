@@ -35,13 +35,12 @@ import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
-
     /**
      * user input.
      */
     protected String ingredients;
-
     protected String ingredientsURL;
+
     /**
      * edit text.
      */
@@ -107,11 +106,12 @@ public class MainActivity extends AppCompatActivity {
         //Link with the UI
         ingredientInput = findViewById(R.id.editText);
 
-        //set up button and disable it until text being changed properly
+        //set up button
         confirmButton = findViewById(R.id.next);
-        confirmButton.setEnabled(false);
 
-        //add TextWatcher
+
+        //add TextWatcher to see if our input changes
+
         ingredientInput.addTextChangedListener(watcher);
 
         //set button handler
