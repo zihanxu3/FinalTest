@@ -120,11 +120,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ingredients = ingredientInput.getText().toString();
                 String[] parts = ingredients.split(",");
+                String trimmed;
                 for (int i = 0; i < parts.length; i++) {
+                    trimmed = parts[i].trim();
                     if (i == parts.length - 1) {
-                        ingredientsURL = ingredientsURL + parts[i];
+                        ingredientsURL = ingredientsURL + trimmed;
                     } else {
-                        ingredientsURL = ingredientsURL + parts[i] + "%2C";
+                        ingredientsURL = ingredientsURL + trimmed + "%2C";
                     }
                 }
                 //We want to cast some exceptions
